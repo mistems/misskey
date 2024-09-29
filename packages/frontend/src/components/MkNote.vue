@@ -31,7 +31,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</MkA>
 			</template>
 			<template #toChannel>
-				<MkA  v-if="note.channel" style="text-decoration: underline;  margin-right: 4px; margin-left:4px;" :to="`/channels/{${note.channelId}`">
+				<MkA  v-if="note.channel" style="text-decoration: underline;  margin-right: 4px; margin-left:4px;" :to="`/channels/${note.channelId}`">
 					<i class="ti ti-device-tv" />{{note.channel.name}}
 				</MkA>
 			</template>
@@ -74,7 +74,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 						:enableEmojiMenuReaction="true"
 					/>
 					<MkCwButton v-model="showContent" :text="appearNote.text" :renote="appearNote.renote" :files="appearNote.files" :poll="appearNote.poll" style="margin: 4px 0;"/>
-					<MkA v-if="appearNote.channel && !inChannel" :class="$style.channel" :to="`/channels/${appearNote.channel.id}`"><i class="ti ti-device-tv"></i> {{ appearNote.channel.name }}</MkA>
 				</p>
 				<div v-show="appearNote.cw == null || showContent" :class="[{ [$style.contentCollapsed]: collapsed }]">
 					<div :class="$style.text">
