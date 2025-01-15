@@ -33,6 +33,8 @@ import * as ep___admin_avatarDecorations_create from './endpoints/admin/avatar-d
 import * as ep___admin_avatarDecorations_delete from './endpoints/admin/avatar-decorations/delete.js';
 import * as ep___admin_avatarDecorations_list from './endpoints/admin/avatar-decorations/list.js';
 import * as ep___admin_avatarDecorations_update from './endpoints/admin/avatar-decorations/update.js';
+import * as ep___admin_captcha_current from './endpoints/admin/captcha/current.js';
+import * as ep___admin_captcha_save from './endpoints/admin/captcha/save.js';
 import * as ep___admin_deleteAllFilesOfAUser from './endpoints/admin/delete-all-files-of-a-user.js';
 import * as ep___admin_unsetUserAvatar from './endpoints/admin/unset-user-avatar.js';
 import * as ep___admin_unsetUserBanner from './endpoints/admin/unset-user-banner.js';
@@ -53,6 +55,7 @@ import * as ep___admin_emoji_setAliasesBulk from './endpoints/admin/emoji/set-al
 import * as ep___admin_emoji_setCategoryBulk from './endpoints/admin/emoji/set-category-bulk.js';
 import * as ep___admin_emoji_setLicenseBulk from './endpoints/admin/emoji/set-license-bulk.js';
 import * as ep___admin_emoji_update from './endpoints/admin/emoji/update.js';
+import * as ep___v2_admin_emoji_list from './endpoints/v2/admin/emoji/list.js';
 import * as ep___admin_federation_deleteAllFiles from './endpoints/admin/federation/delete-all-files.js';
 import * as ep___admin_federation_refreshRemoteInstanceMetadata
 	from './endpoints/admin/federation/refresh-remote-instance-metadata.js';
@@ -420,6 +423,8 @@ const eps = [
 	['admin/avatar-decorations/delete', ep___admin_avatarDecorations_delete],
 	['admin/avatar-decorations/list', ep___admin_avatarDecorations_list],
 	['admin/avatar-decorations/update', ep___admin_avatarDecorations_update],
+	['admin/captcha/current', ep___admin_captcha_current],
+	['admin/captcha/save', ep___admin_captcha_save],
 	['admin/delete-all-files-of-a-user', ep___admin_deleteAllFilesOfAUser],
 	['admin/unset-user-avatar', ep___admin_unsetUserAvatar],
 	['admin/unset-user-banner', ep___admin_unsetUserBanner],
@@ -440,6 +445,7 @@ const eps = [
 	['admin/emoji/set-category-bulk', ep___admin_emoji_setCategoryBulk],
 	['admin/emoji/set-license-bulk', ep___admin_emoji_setLicenseBulk],
 	['admin/emoji/update', ep___admin_emoji_update],
+	['v2/admin/emoji/list', ep___v2_admin_emoji_list],
 	['admin/federation/delete-all-files', ep___admin_federation_deleteAllFiles],
 	['admin/federation/refresh-remote-instance-metadata', ep___admin_federation_refreshRemoteInstanceMetadata],
 	['admin/federation/remove-all-following', ep___admin_federation_removeAllFollowing],

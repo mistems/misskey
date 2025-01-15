@@ -28,6 +28,8 @@ import * as ep___admin_avatarDecorations_create from './endpoints/admin/avatar-d
 import * as ep___admin_avatarDecorations_delete from './endpoints/admin/avatar-decorations/delete.js';
 import * as ep___admin_avatarDecorations_list from './endpoints/admin/avatar-decorations/list.js';
 import * as ep___admin_avatarDecorations_update from './endpoints/admin/avatar-decorations/update.js';
+import * as ep___admin_captcha_current from './endpoints/admin/captcha/current.js';
+import * as ep___admin_captcha_save from './endpoints/admin/captcha/save.js';
 import * as ep___admin_deleteAllFilesOfAUser from './endpoints/admin/delete-all-files-of-a-user.js';
 import * as ep___admin_unsetUserAvatar from './endpoints/admin/unset-user-avatar.js';
 import * as ep___admin_unsetUserBanner from './endpoints/admin/unset-user-banner.js';
@@ -48,6 +50,7 @@ import * as ep___admin_emoji_setAliasesBulk from './endpoints/admin/emoji/set-al
 import * as ep___admin_emoji_setCategoryBulk from './endpoints/admin/emoji/set-category-bulk.js';
 import * as ep___admin_emoji_setLicenseBulk from './endpoints/admin/emoji/set-license-bulk.js';
 import * as ep___admin_emoji_update from './endpoints/admin/emoji/update.js';
+import * as ep___v2_admin_emoji_list from './endpoints/v2/admin/emoji/list.js';
 import * as ep___admin_federation_deleteAllFiles from './endpoints/admin/federation/delete-all-files.js';
 import * as ep___admin_federation_refreshRemoteInstanceMetadata from './endpoints/admin/federation/refresh-remote-instance-metadata.js';
 import * as ep___admin_federation_removeAllFollowing from './endpoints/admin/federation/remove-all-following.js';
@@ -416,6 +419,8 @@ const $admin_avatarDecorations_create: Provider = { provide: 'ep:admin/avatar-de
 const $admin_avatarDecorations_delete: Provider = { provide: 'ep:admin/avatar-decorations/delete', useClass: ep___admin_avatarDecorations_delete.default };
 const $admin_avatarDecorations_list: Provider = { provide: 'ep:admin/avatar-decorations/list', useClass: ep___admin_avatarDecorations_list.default };
 const $admin_avatarDecorations_update: Provider = { provide: 'ep:admin/avatar-decorations/update', useClass: ep___admin_avatarDecorations_update.default };
+const $admin_captcha_current: Provider = { provide: 'ep:admin/captcha/current', useClass: ep___admin_captcha_current.default };
+const $admin_captcha_save: Provider = { provide: 'ep:admin/captcha/save', useClass: ep___admin_captcha_save.default };
 const $admin_deleteAllFilesOfAUser: Provider = { provide: 'ep:admin/delete-all-files-of-a-user', useClass: ep___admin_deleteAllFilesOfAUser.default };
 const $admin_unsetUserAvatar: Provider = { provide: 'ep:admin/unset-user-avatar', useClass: ep___admin_unsetUserAvatar.default };
 const $admin_unsetUserBanner: Provider = { provide: 'ep:admin/unset-user-banner', useClass: ep___admin_unsetUserBanner.default };
@@ -436,6 +441,7 @@ const $admin_emoji_setAliasesBulk: Provider = { provide: 'ep:admin/emoji/set-ali
 const $admin_emoji_setCategoryBulk: Provider = { provide: 'ep:admin/emoji/set-category-bulk', useClass: ep___admin_emoji_setCategoryBulk.default };
 const $admin_emoji_setLicenseBulk: Provider = { provide: 'ep:admin/emoji/set-license-bulk', useClass: ep___admin_emoji_setLicenseBulk.default };
 const $admin_emoji_update: Provider = { provide: 'ep:admin/emoji/update', useClass: ep___admin_emoji_update.default };
+const $admin_emoji_v2_list: Provider = { provide: 'ep:v2/admin/emoji/list', useClass: ep___v2_admin_emoji_list.default };
 const $admin_federation_deleteAllFiles: Provider = { provide: 'ep:admin/federation/delete-all-files', useClass: ep___admin_federation_deleteAllFiles.default };
 const $admin_federation_refreshRemoteInstanceMetadata: Provider = { provide: 'ep:admin/federation/refresh-remote-instance-metadata', useClass: ep___admin_federation_refreshRemoteInstanceMetadata.default };
 const $admin_federation_removeAllFollowing: Provider = { provide: 'ep:admin/federation/remove-all-following', useClass: ep___admin_federation_removeAllFollowing.default };
@@ -808,6 +814,8 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$admin_avatarDecorations_delete,
 		$admin_avatarDecorations_list,
 		$admin_avatarDecorations_update,
+		$admin_captcha_current,
+		$admin_captcha_save,
 		$admin_deleteAllFilesOfAUser,
 		$admin_unsetUserAvatar,
 		$admin_unsetUserBanner,
@@ -828,6 +836,7 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$admin_emoji_setCategoryBulk,
 		$admin_emoji_setLicenseBulk,
 		$admin_emoji_update,
+		$admin_emoji_v2_list,
 		$admin_federation_deleteAllFiles,
 		$admin_federation_refreshRemoteInstanceMetadata,
 		$admin_federation_removeAllFollowing,
@@ -1194,6 +1203,8 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$admin_avatarDecorations_delete,
 		$admin_avatarDecorations_list,
 		$admin_avatarDecorations_update,
+		$admin_captcha_current,
+		$admin_captcha_save,
 		$admin_deleteAllFilesOfAUser,
 		$admin_unsetUserAvatar,
 		$admin_unsetUserBanner,
@@ -1214,6 +1225,7 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$admin_emoji_setCategoryBulk,
 		$admin_emoji_setLicenseBulk,
 		$admin_emoji_update,
+		$admin_emoji_v2_list,
 		$admin_federation_deleteAllFiles,
 		$admin_federation_refreshRemoteInstanceMetadata,
 		$admin_federation_removeAllFollowing,

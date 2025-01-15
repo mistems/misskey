@@ -36,6 +36,8 @@ import type {
 	AdminAvatarDecorationsListRequest,
 	AdminAvatarDecorationsListResponse,
 	AdminAvatarDecorationsUpdateRequest,
+	AdminCaptchaCurrentResponse,
+	AdminCaptchaSaveRequest,
 	AdminDeleteAllFilesOfAUserRequest,
 	AdminUnsetUserAvatarRequest,
 	AdminUnsetUserBannerRequest,
@@ -60,6 +62,8 @@ import type {
 	AdminEmojiSetCategoryBulkRequest,
 	AdminEmojiSetLicenseBulkRequest,
 	AdminEmojiUpdateRequest,
+	V2AdminEmojiListRequest,
+	V2AdminEmojiListResponse,
 	AdminFederationDeleteAllFilesRequest,
 	AdminFederationRefreshRemoteInstanceMetadataRequest,
 	AdminFederationRemoveAllFollowingRequest,
@@ -604,6 +608,8 @@ export type Endpoints = {
 	'admin/avatar-decorations/delete': { req: AdminAvatarDecorationsDeleteRequest; res: EmptyResponse };
 	'admin/avatar-decorations/list': { req: AdminAvatarDecorationsListRequest; res: AdminAvatarDecorationsListResponse };
 	'admin/avatar-decorations/update': { req: AdminAvatarDecorationsUpdateRequest; res: EmptyResponse };
+	'admin/captcha/current': { req: EmptyRequest; res: AdminCaptchaCurrentResponse };
+	'admin/captcha/save': { req: AdminCaptchaSaveRequest; res: EmptyResponse };
 	'admin/delete-all-files-of-a-user': { req: AdminDeleteAllFilesOfAUserRequest; res: EmptyResponse };
 	'admin/unset-user-avatar': { req: AdminUnsetUserAvatarRequest; res: EmptyResponse };
 	'admin/unset-user-banner': { req: AdminUnsetUserBannerRequest; res: EmptyResponse };
@@ -624,6 +630,7 @@ export type Endpoints = {
 	'admin/emoji/set-category-bulk': { req: AdminEmojiSetCategoryBulkRequest; res: EmptyResponse };
 	'admin/emoji/set-license-bulk': { req: AdminEmojiSetLicenseBulkRequest; res: EmptyResponse };
 	'admin/emoji/update': { req: AdminEmojiUpdateRequest; res: EmptyResponse };
+	'v2/admin/emoji/list': { req: V2AdminEmojiListRequest; res: V2AdminEmojiListResponse };
 	'admin/federation/delete-all-files': { req: AdminFederationDeleteAllFilesRequest; res: EmptyResponse };
 	'admin/federation/refresh-remote-instance-metadata': { req: AdminFederationRefreshRemoteInstanceMetadataRequest; res: EmptyResponse };
 	'admin/federation/remove-all-following': { req: AdminFederationRemoveAllFollowingRequest; res: EmptyResponse };
