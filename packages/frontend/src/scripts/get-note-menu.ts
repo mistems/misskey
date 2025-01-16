@@ -589,6 +589,7 @@ export function getRenoteMenu(props: {
 		}]);
 	}
 
+	console.log(appearNote.channel)
 	if (!appearNote.channel || appearNote.channel.allowRenoteToExternal) {
 		normalRenoteItems.push(...[{
 			text: i18n.ts.renote,
@@ -627,9 +628,11 @@ export function getRenoteMenu(props: {
 			text: i18n.ts.quote,
 			icon: 'ti ti-quote',
 			action: () => {
+				console.log("quote pushed")
 				os.post({
 					renote: appearNote,
-				});
+				},
+				{ forceTimeline: true });
 			},
 		}]);
 
