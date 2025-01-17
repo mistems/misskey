@@ -29,13 +29,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { ref, watch, computed } from 'vue';
 import * as Misskey from 'misskey-js';
+import { url as base } from '@@/js/config.js';
+import { useInterval } from '@@/js/use-interval.js';
 import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget.js';
 import MarqueeText from '@/components/MkMarquee.vue';
 import { GetFormResultType } from '@/scripts/form.js';
 import MkContainer from '@/components/MkContainer.vue';
 import { shuffle } from '@/scripts/shuffle.js';
-import { url as base } from '@@/js/config.js';
-import { useInterval } from '@@/js/use-interval.js';
 
 const name = 'rssTicker';
 
@@ -48,13 +48,17 @@ const widgetPropsDef = {
 		type: 'boolean' as const,
 		default: true,
 	},
-	refreshIntervalSec: {
-		type: 'number' as const,
-		default: 60,
+	refreshIntervalMinut: {
+		type: 'range' as const,
+		default: 180,
+		max: 60 * 24,
+		min: 45,
+		label: '再チェック間隔(分)',
 	},
 	maxEntries: {
 		type: 'number' as const,
 		default: 15,
+		label: '最大エントリー数',
 	},
 	duration: {
 		type: 'range' as const,
@@ -119,11 +123,11 @@ const tick = () => {
 };
 
 watch(() => fetchEndpoint, tick);
-watch(() => widgetProps.refreshIntervalSec, () => {
+watch(() => widgetProps.refreshIntervalMinut, () => {
 	if (intervalClear.value) {
 		intervalClear.value();
 	}
-	intervalClear.value = useInterval(tick, Math.max(10000, widgetProps.refreshIntervalSec * 1000), {
+	intervalClear.value = useInterval(tick, widgetProps.refreshIntervalMinut * 60 * 1000, {
 		immediate: true,
 		afterMounted: true,
 	});

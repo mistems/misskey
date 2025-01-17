@@ -25,12 +25,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { ref, watch, computed } from 'vue';
 import * as Misskey from 'misskey-js';
+import { url as base } from '@@/js/config.js';
+import { useInterval } from '@@/js/use-interval.js';
 import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget.js';
 import { GetFormResultType } from '@/scripts/form.js';
 import MkContainer from '@/components/MkContainer.vue';
-import { url as base } from '@@/js/config.js';
 import { i18n } from '@/i18n.js';
-import { useInterval } from '@@/js/use-interval.js';
 import { infoImageUrl } from '@/instance.js';
 
 const name = 'rss';
@@ -40,13 +40,17 @@ const widgetPropsDef = {
 		type: 'string' as const,
 		default: 'http://feeds.afpbb.com/rss/afpbb/afpbbnews',
 	},
-	refreshIntervalSec: {
-		type: 'number' as const,
-		default: 60,
+	refreshIntervalMinut: {
+		type: 'range' as const,
+		default: 180,
+		max: 60 * 24,
+		min: 45,
+		label: '再チェック間隔(分)',
 	},
 	maxEntries: {
 		type: 'number' as const,
 		default: 15,
+		label: '最大エントリー数',
 	},
 	showHeader: {
 		type: 'boolean' as const,
@@ -66,6 +70,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 );
 
 const rawItems = ref<Misskey.entities.FetchRssResponse['items']>([]);
+// max Entriesは記事の本数
 const items = computed(() => rawItems.value.slice(0, widgetProps.maxEntries));
 const fetching = ref(true);
 const fetchEndpoint = computed(() => {
@@ -87,11 +92,11 @@ const tick = () => {
 };
 
 watch(() => fetchEndpoint, tick);
-watch(() => widgetProps.refreshIntervalSec, () => {
+watch(() => widgetProps.refreshIntervalMinut * 1000, () => {
 	if (intervalClear.value) {
 		intervalClear.value();
 	}
-	intervalClear.value = useInterval(tick, Math.max(10000, widgetProps.refreshIntervalSec * 1000), {
+	intervalClear.value = useInterval(tick, widgetProps.refreshIntervalMinut * 1000, {
 		immediate: true,
 		afterMounted: true,
 	});
