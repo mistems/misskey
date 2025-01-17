@@ -45,6 +45,78 @@ https://github.com/mistems/mistems/pulls
 # 開発者向けドキュメント
 ## MISTEMSの作り方
 
+リモートブランチにたいして squash mergeをし続けている
+CHANGELOGはしぬほどコンフリクトするのでなかったことにする
+それ以外のコンフリクトは git rerere で解除方法を覚えてもらう
+
+具体的には以下のようなshellscriptを実行している
+
+```
+#!/usr/bin/env fish
+
+git fetch origin
+git fetch riin
+git fetch samunohito
+git fetch kakkokari-gtyih
+git switch mistems-main
+git reset origin/develop --hard
+
+git merge --squash  riin/mistems/channel &&\
+git commit -a -m "チャンネル周りの機能" &&\
+git merge --squash riin/channelIndex &&\
+git commit -a -m "チャンネルだいたいぜんぶみる" &&\
+git merge --squash riin/mkNoteExtend &&\
+git commit -a -m "MkNote拡張" &&\
+git merge --squash riin/emojiDetailDialog &&\
+git commit -a -m "MkReactionViewer拡張" &&\
+git merge --squash kakkokari-gtyih/fix-stream-indicator &&\
+git restore --staged ../../CHANGELOG.md &&\
+git restore ../../CHANGELOG.md
+git commit -a -m "WSが再開したらサーバー切断メッセージを閉じる misskey-dev/misskey#14832" &&\
+git merge --squash riin/block-mentions-from-unfamiliar  &&\
+git commit -a -m "無名のユーザーからの通知を拒否する(MisskeyIO/misskey/#462)" &&\
+git merge --squash riin/favstar &&\
+git commit -a -m "ふぁぼすたーを感じる機能" &&\
+git merge --squash samunohito/feature/emoji-grid &&\
+git restore --staged ../../CHANGELOG.md &&\
+git restore ../../CHANGELOG.md
+git commit -a -m "feat: 新カスタム絵文字管理画面（β）の追加 misskey-dev/misskey#13473" &&\
+git merge --squash riin/emojiPickKanaConv &&\
+git commit -a -m "絵文字検索ひらカナ大統一" &&\
+git merge --squash riin/emojiChotMiel &&\
+git commit -a -m "絵文字ちょっと見えてほしい" &&\
+git restore --staged ../../CHANGELOG.md &&\
+git restore ../../CHANGELOG.md
+git merge --squash samunohito/fix/fix-insert-execute-to-master &&\
+git restore --staged ../../CHANGELOG.md &&\
+git restore ../../CHANGELOG.md
+git commit -a -m "Replica対応 samunohito/misskey#51" &&\
+git merge --squash samunohito/fix/15018-check-local-only &&\
+git restore --staged ../../CHANGELOG.md &&\
+git restore ../../CHANGELOG.md &&\
+git commit -a -m "fix(backend): localOnlyなノートの時は配送処理そのものを起動しない #15020" 
+
+git merge --squash riin/safe-rss &&\
+git commit -a -m "saferRSS" &&\
+git merge --squash riin/readble-message-ratelimitservice &&\
+git commit -a -m "BRIEF_REQUEST_INTERVAL を人間に意味のあるメッセージにする" &&\
+git merge --squash riin/remove-nomeaning-reaction-log &&\
+git commit -a -m "saferRSS"
+
+set MISVER 23
+set file_path "../../package.json"
+# JSONからversionを取得 -MISTEMS.XX を追加した新しいバージョンを作成
+set current_version (jq -r '.version' $file_path)
+set new_version "$current_version-MISTEMS.$MISVER"
+
+# package.jsonのversionを新しいものに書き換え
+jq --arg new_version "$new_version" '.version = $new_version' $file_path > tmp.json && mv tmp.json $file_path
+npx prettier -w $file_path
+
+echo "Version updated to: $new_version"
+git commit -a -m "Version updated to: $new_version"
+```
+
 ### 管理用ブランチ
 
 - mistems-main  - 後述の方法で misskey/develop 最新に機能ブランチを取り込んだブランチ デプロイするときはこれを使う コミットログはあまり当てにならない
