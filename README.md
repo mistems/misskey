@@ -1,8 +1,8 @@
 # MISTEMS
 
-ほしい機能詰め込み改造Misskey 
-諸般の事情により実際にデプロイするブランチは mistems-main で mistems-readme ブランチはダミーである 
-mistems-mainの現在の差分はおそらくこちら 
+ほしい機能詰め込み改造Misskey  
+諸般の事情により実際にデプロイするブランチは mistems-main で mistems-readme ブランチはダミーである  
+mistems-mainの現在の差分はおそらくこちら  
 https://github.com/misskey-dev/misskey/compare/develop...mistems:mistems:mistems-main
 
 
