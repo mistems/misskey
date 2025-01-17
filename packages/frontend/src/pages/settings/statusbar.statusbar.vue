@@ -36,7 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<MkSwitch v-model="statusbar.props.shuffle">
 			<template #label>{{ i18n.ts.shuffle }}</template>
 		</MkSwitch>
-		<MkInput v-model="statusbar.props.refreshIntervalSec" manualSave type="number" min="1">
+		<MkInput v-model="statusbar.props.refreshIntervalSec" manualSave type="number" :min="45 * 60">
 			<template #label>{{ i18n.ts.refreshInterval }}</template>
 		</MkInput>
 		<MkRange v-model="statusbar.props.marqueeDuration" :min="5" :max="150" :step="1">
@@ -48,7 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</MkSwitch>
 	</template>
 	<template v-else-if="statusbar.type === 'federation'">
-		<MkInput v-model="statusbar.props.refreshIntervalSec" manualSave type="number" min="1">
+		<MkInput v-model="statusbar.props.refreshIntervalSec" manualSave type="number" :min="45 * 60">
 			<template #label>{{ i18n.ts.refreshInterval }}</template>
 		</MkInput>
 		<MkRange v-model="statusbar.props.marqueeDuration" :min="5" :max="150" :step="1">
@@ -67,7 +67,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<template #label>{{ i18n.ts.userList }}</template>
 			<option v-for="list in userLists" :value="list.id">{{ list.name }}</option>
 		</MkSelect>
-		<MkInput v-model="statusbar.props.refreshIntervalSec" manualSave type="number">
+		<MkInput v-model="statusbar.props.refreshIntervalSec" manualSave :min="45 * 60" type="number">
 			<template #label>{{ i18n.ts.refreshInterval }}</template>
 		</MkInput>
 		<MkRange v-model="statusbar.props.marqueeDuration" :min="5" :max="150" :step="1">
@@ -111,20 +111,20 @@ watch(() => statusbar.type, () => {
 		statusbar.name = 'NEWS';
 		statusbar.props.url = 'http://feeds.afpbb.com/rss/afpbb/afpbbnews';
 		statusbar.props.shuffle = true;
-		statusbar.props.refreshIntervalSec = 120;
+		statusbar.props.refreshIntervalSec = 45 * 60;
 		statusbar.props.display = 'marquee';
 		statusbar.props.marqueeDuration = 100;
 		statusbar.props.marqueeReverse = false;
 	} else if (statusbar.type === 'federation') {
 		statusbar.name = 'FEDERATION';
-		statusbar.props.refreshIntervalSec = 120;
+		statusbar.props.refreshIntervalSec = 45 * 60;
 		statusbar.props.display = 'marquee';
 		statusbar.props.marqueeDuration = 100;
 		statusbar.props.marqueeReverse = false;
 		statusbar.props.colored = false;
 	} else if (statusbar.type === 'userList') {
 		statusbar.name = 'LIST TL';
-		statusbar.props.refreshIntervalSec = 120;
+		statusbar.props.refreshIntervalSec = 45 * 60;
 		statusbar.props.display = 'marquee';
 		statusbar.props.marqueeDuration = 100;
 		statusbar.props.marqueeReverse = false;

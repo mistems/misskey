@@ -29,8 +29,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { ref } from 'vue';
 import * as Misskey from 'misskey-js';
-import MarqueeText from '@/components/MkMarquee.vue';
 import { useInterval } from '@@/js/use-interval.js';
+import MarqueeText from '@/components/MkMarquee.vue';
 import { shuffle } from '@/scripts/shuffle.js';
 
 const props = defineProps<{
@@ -60,7 +60,7 @@ const tick = () => {
 	});
 };
 
-useInterval(tick, Math.max(5000, props.refreshIntervalSec * 1000), {
+useInterval(tick, Math.max(60 * 45, props.refreshIntervalSec * 1000), {
 	immediate: true,
 	afterMounted: true,
 });
