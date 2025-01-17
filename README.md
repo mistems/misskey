@@ -49,9 +49,9 @@ https://github.com/mistems/mistems/pulls
 # 開発者向けドキュメント
 ## MISTEMSの作り方
 
-リモートブランチにたいして squash mergeをし続けている
-CHANGELOGはしぬほどコンフリクトするのでなかったことにする
-それ以外のコンフリクトは git rerere で解除方法を覚えてもらう
+リモートブランチにたいして squash mergeする  
+CHANGELOGはしぬほどコンフリクトするのでなかったことにする  
+それ以外のコンフリクトは git rerere で解除方法を覚えてもらう  
 
 具体的には以下のようなshellscriptを実行している
 
