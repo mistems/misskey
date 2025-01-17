@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { URL } from 'url';
 import Parser from 'rss-parser';
 import { Injectable } from '@nestjs/common';
 import { Endpoint } from '@/server/api/endpoint-base.js';
@@ -15,7 +16,7 @@ export const meta = {
 
 	requireCredential: false,
 	allowGet: true,
-	cacheSec: 60 * 3,
+	cacheSec: 60 * 3, // ASK: これどう振る舞うの？
 
 	res: {
 		type: 'object',
@@ -213,23 +214,74 @@ export const paramDef = {
 	required: ['url'],
 } as const;
 
+const isValidUrl = (urlString: string) => {
+	try { 
+		return Boolean(new URL(urlString)); 
+	} catch (e) { 
+		return false; 
+	}
+};
+
+function createErrResponse(url: string, msg: string): Parser.Output<Parser.Item> {
+	console.log('[FetchRSS INFO]', url, msg);
+	return {
+		description: 'リクエスト失敗',
+		title: url,
+		items: [
+			{ title: msg, content: '', link: ''	},
+		],
+		link: '',
+	};
+}
+
+const unstableUrl : Record<string, number> = {};
+
+function incrementUnstableUrl(url: string) {
+	if (unstableUrl[url]) {
+		unstableUrl[url]++;
+	} else {
+		unstableUrl[url] = 1;
+	}
+	console.error('[fetch-rss INFO]' + url + ' is failed ' + unstableUrl[url] + ' times' );
+}
+
 @Injectable()
 export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-disable-line import/no-default-export
 	constructor(
 		private httpRequestService: HttpRequestService,
 	) {
-		super(meta, paramDef, async (ps, me) => {
-			const res = await this.httpRequestService.send(ps.url, {
-				method: 'GET',
-				headers: {
-					Accept: 'application/rss+xml, */*',
-				},
-				timeout: 5000,
-			});
+		super(meta, paramDef, async (ps, _me) => {
+			if (!isValidUrl(ps.url)) {
+				incrementUnstableUrl(ps.url);
+				return await createErrResponse(ps.url, '入力がURLではありません');
+			}
 
-			const text = await res.text();
+			try {
+				const res = await this.httpRequestService.send(ps.url, {
+					method: 'GET',
+					headers: {
+						Accept: 'application/rss+xml, */*',
+					},
+					timeout: 5000,
+				});
+				if (unstableUrl[ps.url] && unstableUrl[ps.url] > 5) {
+					incrementUnstableUrl(ps.url);
+ 					return await createErrResponse(ps.url, 'このURLはRSSのURLではないかも');
+				}
 
-			return rssParser.parseString(text);
+				const text = await res.text();
+				return await rssParser.parseString(text);
+			} catch (err ) {
+				incrementUnstableUrl(ps.url);
+				if (err.message.match('nvalid character in entity name')) {
+					return await createErrResponse(ps.url, 'URLはRSSではありません');	
+				}
+				if (err.code === 'ENOTFOUND') {
+					return await createErrResponse(ps.url, 'URLが間違っています');	
+				}
+
+				return await createErrResponse(ps.url, err.message as string);
+			};
 		});
 	}
 }
