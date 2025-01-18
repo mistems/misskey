@@ -38,7 +38,8 @@ export type Keys =
 	`aiscript:${string}` |
 	'lastEmojisFetchedAt' | // DEPRECATED, stored in indexeddb (13.9.0~)
 	'emojis' | // DEPRECATED, stored in indexeddb (13.9.0~);
-	`channelLastReadedAt:${string}` |
+	`channelLastReadedAt:${string}` | // DEPRECATED, stored channelsLastReadedAt and registry
+	'channelsLastReadedAt' |
 	`idbfallback::${string}`
 
 // セッション毎に廃棄されるLocalStorage代替（セーフモードなどで使用できそう）

@@ -36,12 +36,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { computed, watch, provide, shallowRef, ref, onMounted, onActivated } from 'vue';
+import { scroll } from '@@/js/scroll.js';
 import type { Tab } from '@/components/global/MkPageHeader.tabs.vue';
+import type { MenuItem } from '@/types/menu.js';
+import type { BasicTimelineType } from '@/timelines.js';
 import MkTimeline from '@/components/MkTimeline.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import MkPostForm from '@/components/MkPostForm.vue';
 import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
-import { scroll } from '@@/js/scroll.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { defaultStore } from '@/store.js';
@@ -51,10 +53,8 @@ import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { antennasCache, userListsCache, favoritedChannelsCache } from '@/cache.js';
 import { deviceKind } from '@/scripts/device-kind.js';
 import { deepMerge } from '@/scripts/merge.js';
-import type { MenuItem } from '@/types/menu.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { availableBasicTimelines, hasWithReplies, isAvailableBasicTimeline, isBasicTimeline, basicTimelineIconClass } from '@/timelines.js';
-import type { BasicTimelineType } from '@/timelines.js';
 
 provide('shouldOmitHeaderTitle', true);
 
@@ -173,7 +173,7 @@ async function chooseChannel(ev: MouseEvent): Promise<void> {
 	const channels = await favoritedChannelsCache.fetch();
 	const items: MenuItem[] = [
 		...channels.map(channel => {
-			const lastReadedAt = miLocalStorage.getItemAsJson(`channelLastReadedAt:${channel.id}`) ?? null;
+			const lastReadedAt = miLocalStorage.getItemAsJson('channelsLastReadedAt')[channel.id] ?? null;
 			const hasUnreadNote = (lastReadedAt && channel.lastNotedAt) ? Date.parse(channel.lastNotedAt) > lastReadedAt : !!(!lastReadedAt && channel.lastNotedAt);
 
 			return {

@@ -23,6 +23,7 @@ import { emojiPicker } from '@/scripts/emoji-picker.js';
 import { mainRouter } from '@/router/main.js';
 import { type Keymap, makeHotkey } from '@/scripts/hotkey.js';
 import { addCustomEmoji, removeCustomEmojis, updateCustomEmojis } from '@/custom-emojis.js';
+import { miRegistoryItem } from '@/registry-item.js';
 
 export async function mainBoot() {
 	const { isClientUpdated } = await common(() => createApp(
@@ -292,6 +293,8 @@ export async function mainBoot() {
 		//	}
 		//}
 		//miLocalStorage.setItem('lastUsed', Date.now().toString());
+		const channelLastReadedAt = await miRegistoryItem.get('channelsLastReadedAt');
+		miLocalStorage.setItemAsJson('channelsLastReadedAt', channelLastReadedAt);
 
 		const latestDonationInfoShownAt = miLocalStorage.getItem('latestDonationInfoShownAt');
 		const neverShowDonationInfo = miLocalStorage.getItem('neverShowDonationInfo');
