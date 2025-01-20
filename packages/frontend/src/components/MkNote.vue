@@ -80,7 +80,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<MkCwButton v-model="showContent" :text="appearNote.text" :renote="appearNote.renote" :files="appearNote.files" :poll="appearNote.poll" style="margin: 4px 0;"/>
 				</p>
 				<div v-show="appearNote.cw == null || showContent" :class="[{ [$style.contentCollapsed]: collapsed }]">
-					<div :class="$style.text">
+					<div :class="[$style.text, {[$style.akafav]:(featured && note.reactionCount >= highlightPopularityThreshold.highPopularity ), [$style.aofav]: featured && note.reactionCount >= highlightPopularityThreshold.midPopularity && note.reactionCount < highlightPopularityThreshold.highPopularity }]">
 						<span v-if="appearNote.isHidden" style="opacity: 0.5">({{ i18n.ts.private }})</span>
 						<MkA v-if="appearNote.replyId" :class="$style.replyIcon" :to="`/notes/${appearNote.replyId}`"><i class="ti ti-arrow-back-up"></i></MkA>
 						<Mfm
@@ -232,7 +232,7 @@ import { claimAchievement } from '@/scripts/achievements.js';
 import { getNoteSummary } from '@/scripts/get-note-summary.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { showMovedDialog } from '@/scripts/show-moved-dialog.js';
-import { isEnabledUrlPreview } from '@/instance.js';
+import { instance, isEnabledUrlPreview } from '@/instance.js';
 import { type Keymap } from '@/scripts/hotkey.js';
 import { focusPrev, focusNext } from '@/scripts/focus.js';
 import { getAppearNote } from '@/scripts/get-appear-note.js';
@@ -241,9 +241,11 @@ const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;
 	pinned?: boolean;
 	mock?: boolean;
-	withHardMute?: boolean;
+	withHardMute?: boolean;	
+	featured: boolean;
 }>(), {
 	mock: false,
+	featured: false,
 });
 
 provide('mock', props.mock);
@@ -260,6 +262,13 @@ const currentClip = inject<Ref<Misskey.entities.Clip> | null>('currentClip', nul
 
 const note = ref(deepClone(props.note));
 
+
+const highlightPopularityThreshold = computed(() => {
+	return {
+		highPopularity: instance.highlightHighPopularityThreashold,
+		midPopularity: instance.highlightMidPopularityThreshold,
+	}
+})
 // plugin
 if (noteViewInterruptors.length > 0) {
 	onMounted(async () => {
@@ -664,6 +673,15 @@ function emitUpdReaction(emoji: string, delta: number) {
 	font-size: 1.05em;
 	overflow: clip;
 	contain: content;
+
+	.akafav {
+		font-size: 2rem;
+		color: #f7796c;
+	}
+	.aofav {
+		font-size: 1.5rem;
+		color: rgb(68, 164, 193);
+	}
 
 	&:focus-visible {
 		outline: none;
